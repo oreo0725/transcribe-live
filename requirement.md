@@ -3,7 +3,7 @@ create a web application to process live recording transcription
 # requirement
 - [x] 即時錄音轉譯功能，當user按下錄音按鈕後，開始錄音。user可以從ui上看到錄音的進度條、duration
 - [x] 在錄音時，可以隨時按下停止錄音按鈕來停止錄音。
-- [x] user 可以在介面上指定要轉譯的語言，預設為中文 (zh)。
+- [x] user 可以在介面上指定要轉譯的語言。
 - [x] 即時轉譯功能是透過whisper API來實現的，user 可以在介面上設定一組 openai 相容的 LLM API，包括API URL、Model、API Key、 prompt 等參數。存檔在local storage中，並在應用程式啟動時載入。
 - [x] user按下開始錄音後，即時在背景執行轉譯：錄音收集適當的長度，至少5秒以上作為一個片段，將片段上傳到LLM API進行轉譯。
 - [x] 轉譯api回應完成後，將轉譯結果顯示在畫面上，並附上時間戳記。
@@ -32,7 +32,6 @@ create a web application to process live recording transcription
 - The API request must be formatted as multipart/form-data.
 - The API request must include the audio file and any other required parameters.
 - default value for parameters:
-    - prompt: "always transcribe into zh-tw text when the output language is chinese"
     - response_format: "verbose_json"
 - the API response looks like:
 ```json
@@ -127,7 +126,7 @@ The application must handle API errors and display user-friendly error messages.
 - 2025-04-10 完成：
   - 錄音UI顯示整段錄音總時長
   - 逐字稿累積顯示所有片段
-  - Whisper API 新增 language 參數，預設 zh
+  - Whisper API 新增 language 參數
   - ConfigDialog 新增語言欄位，存入 localStorage，API呼叫帶入
 - 2025-04-10 錄音分段問題修正：
   - 修復了僅第一段能成功轉譯的問題
@@ -217,6 +216,13 @@ audio input fine tuning
 
 project management
 - [x] 建立適合此專案的 .gitignore 檔案
+
+## 即時轉譯的理想效果
+1. 系統應按照停頓來切割segment，一旦得到一個segment，便即可進行轉譯
+2. 承1，停頓的偵測不能太靈敏，代表著要有一定程度的tolerance，避免只是因為speaker的語速不夠快而造成過早的斷句，但其實speaker還沒講完
+3. 承2，停頓也有可能因為非語音的干擾而被判斷為偽陰性，例如speaker明明已經停頓了，但因為周遭有雜音而被判斷為有聲音，這樣的情況下，系統應要filter掉這些雜音，知道speaker已經停頓了，可以進行轉譯
+4. 一個segment的長度不應過短，否則會造成過多的API請求，增加系統負擔，至少要有2秒以上的長度
+5. 一個segment的長度不應過長，否則會造成轉譯的延遲，影響使用者體驗，最多不應超過10秒
 
 ## enhancement and future development
 
