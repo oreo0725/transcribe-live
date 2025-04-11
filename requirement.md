@@ -22,7 +22,7 @@ create a web application to process live recording transcription
 - [x] The application must have a modern and visually appealing UI.
 - [x] The UI must be responsive and work on different screen sizes.
 - [x] The page layout is separated into 4 sections:
-    - header: the product brand, LinguaLive
+    - header: the product brand, TranscribeLive
     - the transcription display section (currently placeholder)
     - the control section with record/stop button and config button opening a modal
     - the footer section: copyright

@@ -2,7 +2,7 @@
   <header class="header">
     <div class="container header-content">
       <div class="logo">
-        <h1>LinguaLive</h1>
+        <h1>TranscribeLive</h1>
         <div class="logo-accent"></div>
       </div>
     </div>

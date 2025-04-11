@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <p class="copyright">&copy; 2025 LinguaLive<span class="version">v1.0</span></p>
+        <p class="copyright">&copy; 2025 TranscribeLive<span class="version">v1.0</span></p>
         <div class="footer-links">
           <a href="#" title="用戶隱私">隱私政策</a>
           <a href="#" title="使用條款">使用條款</a>
