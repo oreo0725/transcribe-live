@@ -157,7 +157,7 @@ The application must handle API errors and display user-friendly error messages.
   - 完全重構智能分段錄音邏輯：
     - 採用音量歷史記錄進行穩定判斷，防止短暫波動
     - 優化FFT頻譜分析參數，更準確捕捉人聲頻率
-    - 實現三層判斷：有語音結束後的短靜音、達到最大片段時長、持續靜音超過閾值
+    - 實現三層判斷：有語音結束後的短靜音、達到最大片段時長、靜音持續過長
     - 丟棄無意義的靜音片段，只轉譯有價值的內容
   - 完善匯出SRT功能：
     - 修復下載觸發問題與錯誤處理
@@ -179,12 +179,27 @@ The application must handle API errors and display user-friendly error messages.
     - 完全移除之前「檔案大小超過閾值即轉譯」的寬鬆條件
     - 添加詳細的診斷日誌，清晰顯示轉譯決策依據
     - 確保系統能正確識別並丟棄完全靜音的片段，避免浪費API呼叫
+- 2025-04-11 轉譯品質平衡優化：
+  - 解決「句中切斷」問題：
+    - 將強制分段時間從6秒延長至12秒，減少連續說話時被中斷的頻率
+    - 保持「只有檢測到語音」的轉譯條件，繼續過濾靜音片段
+    - 在長句子與即時更新之間取得平衡，避免過長等待轉譯結果
+    - 保留語音結束後的自然分段機制，優先在自然停頓處切分
+- 2025-04-11 專案完善：
+  - 修正轉譯面板時間戳格式：
+    - 將時間顯示從秒數格式（例如 "90.04s"）改為標準時間格式（"HH:mm:ss"）
+    - 提高時間戳的可讀性和專業性
+  - 建立完整的 .gitignore 檔案：
+    - 包含 Node.js、Vue.js 和 Webpack 專案的標準忽略項
+    - 排除 node_modules、構建產物、環境檔案和敏感資訊
+    - 加入專案特定的配置檔案排除
 
 ## to be corrected
 
 ui
 - [x] for the recording ui, should display the whole duration of the recording, not just the last segment
 - [x] for the transcription display, should display the whole transcription, not just the last segment
+- [x] display panel上顯示的timestamp 格式應為 `HH:mm:ss`，而不是 `90.04s`
 
 the whisper api
 - [x] add `language` parameter to the API request
@@ -198,9 +213,10 @@ audio input fine tuning
 - [x] the confirm dialog for canceling transcription is too annoying, should skip the confirmation dialog and just cancel the transcription directly when it detected silence or noise.
 - [x] 重新檢視音量檢測與靜音過濾的邏輯，確保在錄音過程中能夠準確識別靜音片段並自動跳過，避免不必要的轉譯請求。但在累積要submit的片段時，仍然需要確保每個片段都是完整的WebM音訊，並且避免太頻繁的API請求。
 - [x] 即使在完全靜音的情況下錄音，應用程式仍然錯誤地將音訊片段發送到轉譯 API
+- [x] 在連續說話時，系統有時會在句子中間切斷並提交片段，影響轉譯品質
 
-the export srt
-- [x] nothing happens when I click the export button, should be able to trigger a download of the srt file
+project management
+- [x] 建立適合此專案的 .gitignore 檔案
 
 ## enhancement and future development
 
@@ -211,3 +227,5 @@ the export srt
 - 提供更豐富的轉譯結果格式，如 txt, docx 等
 - 開發自動識別講者功能，區分不同說話者的轉譯內容
 - 增加訂閱服務，集成更多高級功能例如摘要生成、整理重點等
+- 考慮應用機器學習來學習用戶說話模式，進一步優化分段策略
+- 提供更多影片/音訊剪輯相關功能，例如基於轉譯結果的自動剪輯、生成關鍵詞摘要等

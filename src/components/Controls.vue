@@ -15,7 +15,7 @@ import { transcribeAudioSegment } from '../api/whisper.js';
 
 // 核心配置參數 - 調整以提高敏感度並確保按時間強制分段
 const MAX_SEGMENT_DURATION_MS = 20000; // 最大片段時長 (20秒)
-const OPTIMAL_SEGMENT_DURATION_MS = 6000; // 理想分段時間 (6秒，連續說話時)
+const OPTIMAL_SEGMENT_DURATION_MS = 12000; // 理想分段時間 (12秒，連續說話時)
 const SILENCE_THRESHOLD_MS = 1500; // 語音結束後的靜音閾值 (1.5秒)
 const LONG_SILENCE_THRESHOLD_MS = 5000; // 持續靜音閾值 (5秒)
 const MIN_SEGMENT_DURATION_MS = 1000; // 最小有效片段時長 (1秒)

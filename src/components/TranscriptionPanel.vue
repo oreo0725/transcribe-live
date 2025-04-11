@@ -21,7 +21,12 @@ export default {
   },
   methods: {
     formatTime(seconds) {
-      return seconds.toFixed(2) + 's';
+      // 將秒數轉換為 HH:mm:ss 格式
+      const totalSeconds = Math.floor(seconds);
+      const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+      const secs = String(totalSeconds % 60).padStart(2, '0');
+      return `${hours}:${minutes}:${secs}`;
     }
   }
 }
