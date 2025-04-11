@@ -5,11 +5,11 @@ export async function transcribeAudioSegment(blob, params = {}) {
   formData.append('file', blob, 'audio.webm');
   formData.append('response_format', 'verbose_json');
 
-  // 使用設定中的prompt，否則預設
-  formData.append(
-    'prompt',
-    config.prompt || 'always transcribe into zh-tw text when the output language is chinese'
-  );
+  if (config.prompt) {
+    formData.append(
+      'prompt', config.prompt
+    );
+  }
 
   if (params.language) formData.append('language', params.language);
   if (params.temperature) formData.append('temperature', params.temperature);

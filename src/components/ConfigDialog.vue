@@ -23,7 +23,7 @@ export default {
       apiKey: '',
       model: '',
       prompt: '',
-      language: 'zh'
+      language: ''
     };
   },
   mounted() {
@@ -32,7 +32,7 @@ export default {
     this.apiKey = saved.apiKey || '';
     this.model = saved.model || '';
     this.prompt = saved.prompt || '';
-    this.language = saved.language || 'zh';
+    this.language = saved.language || '';
   },
   methods: {
     saveConfig() {
