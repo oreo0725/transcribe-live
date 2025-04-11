@@ -5,13 +5,16 @@ export async function transcribeAudioSegment(blob, params = {}) {
   formData.append('file', blob, 'audio.webm');
   formData.append('response_format', 'verbose_json');
 
-  if (config.prompt) {
-    formData.append(
-      'prompt', config.prompt
-    );
+  // 只有當 prompt 存在且不為空字符串時才添加
+  if (config.prompt && config.prompt.trim() !== '') {
+    formData.append('prompt', config.prompt);
   }
 
-  if (params.language) formData.append('language', params.language);
+  // 只有當 language 存在且不為空字符串時才添加
+  if (params.language && params.language.trim() !== '') {
+    formData.append('language', params.language);
+  }
+  
   if (params.temperature) formData.append('temperature', params.temperature);
 
   // 使用設定中的model優先，否則params.model

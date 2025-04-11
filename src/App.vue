@@ -1,15 +1,19 @@
 <template>
-  <div class="app-container">
+  <div class="app-wrapper">
     <HeaderComponent />
 
-    <TranscriptionPanel :transcriptions="transcriptions" />
+    <main class="app-main">
+      <div class="container">
+        <TranscriptionPanel :transcriptions="transcriptions" />
 
-    <Controls
-      @open-config="showConfig = true"
-      @segment-transcribed="handleSegment"
-      @transcription-error="handleError"
-      @export-srt="downloadSRT"
-    />
+        <Controls
+          @open-config="showConfig = true"
+          @segment-transcribed="handleSegment"
+          @transcription-error="handleError"
+          @export-srt="downloadSRT"
+        />
+      </div>
+    </main>
 
     <ConfigDialog v-if="showConfig" @close="showConfig = false" />
 
@@ -141,12 +145,21 @@ ${seg.text}`;
 </script>
 
 <style scoped>
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: #f9f9f9;
-  color: #333;
+/* 應用容器樣式在全局 style.css 中已經定義 (.app-wrapper) */
+
+.app-main {
+  padding: var(--spacing-xl) 0;
+  background-color: var(--color-background);
+}
+
+/* 在小屏幕上調整間距 */
+@media (max-width: 768px) {
+  .app-main {
+    padding: var(--spacing-lg) 0;
+  }
+  
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
 }
 </style>

@@ -1,3 +1,52 @@
+/* 引入 Google Fonts - Noto Sans TC (適合繁體中文) 和 Inter (現代無襯線字體) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+/* CSS 變量 - 定義主題色彩和尺寸 */
+:root {
+  /* 色彩系統 */
+  --color-primary: #3a7bd5;         /* 主色調 - 沉穩藍 */
+  --color-primary-light: #5a9df0;   /* 主色調亮版 */
+  --color-primary-dark: #2a5eb0;    /* 主色調暗版 */
+  --color-accent: #00c2a8;          /* 強調色 - 清新青綠 */
+  --color-accent-light: #2ddbbd;    /* 強調色亮版 */
+  
+  --color-text-primary: #333333;    /* 主要文字色 */
+  --color-text-secondary: #666666;  /* 次要文字色 */
+  --color-text-tertiary: #888888;   /* 第三級文字色 */
+  --color-text-light: #ffffff;      /* 淺色文字 (用於深色背景) */
+  
+  --color-background: #f9f9f9;      /* 主要背景色 - 淺灰白 */
+  --color-surface: #ffffff;         /* 卡片/面板背景色 - 白色 */
+  --color-divider: #eeeeee;         /* 分隔線色彩 */
+  
+  --color-error: #e53935;           /* 錯誤色 */
+  --color-success: #43a047;         /* 成功色 */
+  --color-recording: #f55345;       /* 錄音中狀態色 */
+
+  /* 尺寸與間距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-circle: 50%;
+
+  /* 陰影效果 */
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+  
+  /* 動畫過渡時間 */
+  --transition-fast: 150ms;
+  --transition-normal: 250ms;
+  --transition-slow: 350ms;
+}
+
+/* 基礎重設與全局樣式 */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,40 +55,193 @@
 
 html, body {
   height: 100%;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background-color: #f9f9f9;
-  color: #333;
-  line-height: 1.6;
-}
-
+/* 按鈕樣式 */
 button {
   cursor: pointer;
-  padding: 8px 16px;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: none;
-  border-radius: 4px;
-  background-color: #4a90e2;
-  color: white;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  transition: all var(--transition-fast) ease-in-out;
+  box-shadow: var(--shadow-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
 }
 
 button:hover {
-  background-color: #357ae8;
+  background-color: var(--color-primary-light);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
 }
 
+button:active {
+  background-color: var(--color-primary-dark);
+  transform: translateY(0);
+  box-shadow: var(--shadow-subtle);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.4);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 特殊按鈕樣式 */
+.btn-accent {
+  background-color: var(--color-accent);
+}
+
+.btn-accent:hover {
+  background-color: var(--color-accent-light);
+}
+
+.btn-outlined {
+  background-color: transparent;
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outlined:hover {
+  background-color: rgba(58, 123, 213, 0.05);
+}
+
+.btn-text {
+  background-color: transparent;
+  color: var(--color-primary);
+  box-shadow: none;
+}
+
+.btn-text:hover {
+  background-color: rgba(58, 123, 213, 0.05);
+  box-shadow: none;
+}
+
+.btn-icon {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-circle);
+  min-width: 40px;
+}
+
+/* 輸入框樣式 */
 input, textarea, select {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1.5px solid var(--color-divider);
+  border-radius: var(--border-radius-md);
+  font-family: inherit;
+  font-size: 0.95rem;
   width: 100%;
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-fast) ease-in-out,
+              box-shadow var(--transition-fast) ease-in-out;
 }
 
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+}
+
+/* 容器與佈局 */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--spacing-md);
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+/* 輔助類 */
+.text-center { text-align: center; }
+.text-bold { font-weight: 600; }
+.text-success { color: var(--color-success); }
+.text-error { color: var(--color-error); }
+.text-faded { opacity: 0.7; }
+
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+.mt-5 { margin-top: var(--spacing-xl); }
+
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-5 { margin-bottom: var(--spacing-xl); }
+
+/* 應用特定樣式 */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  padding: var(--spacing-lg) 0;
+}
+
+/* 進度條樣式 */
+progress {
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-divider);
+  overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--color-divider);
+  border-radius: var(--border-radius-sm);
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  transition: width var(--transition-normal) ease-out;
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  transition: width var(--transition-normal) ease-out;
+}
+
+/* 與錄音相關的樣式 */
+.recording-active {
+  color: var(--color-recording);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }
