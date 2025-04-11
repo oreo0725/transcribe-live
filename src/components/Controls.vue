@@ -325,13 +325,16 @@ export default {
             const submissionTime = this.totalElapsedTime;
             const segmentDuration = (Date.now() - (this.startTime + this.segmentStartTime * 1000)) / 1000;
 
-            // 判斷片段是否需要轉譯 - 更寬鬆條件
-            const hasMinimumSize = blob.size > 8192; // 降低到8KB
+            // 判斷片段是否需要轉譯
+            const hasMinimumSize = blob.size > 8192; // 檔案大小檢查，僅用於日誌輸出
+            const hasValidDuration = segmentDuration > 1.5; // 時長檢查，僅用於日誌輸出
             
-            // 幾乎任何有合理大小的片段都轉譯
-            const isWorthTranscribing = this.hasSpokenInSegment || hasMinimumSize;
+            // 只轉譯有語音內容的片段，忽略只有靜音的片段
+            const isWorthTranscribing = this.hasSpokenInSegment;
+            
+            console.log(`轉譯判斷: 有語音=${this.hasSpokenInSegment}, 大小足夠=${hasMinimumSize}, 時長足夠=${hasValidDuration}, 結果=${isWorthTranscribing}`);
 
-            // 轉譯片段
+            // 轉譯片段（嚴格僅轉譯有語音內容的片段）
             if (isWorthTranscribing) {
               try {
                 const lang = window.__app__?.config.globalProperties.$apiConfig?.language || 'zh';

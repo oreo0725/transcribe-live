@@ -173,6 +173,12 @@ The application must handle API errors and display user-friendly error messages.
     - 採用更寬鬆的轉譯條件，確保有語音的片段都能被轉譯
     - 降低檔案大小閾值，避免有價值的短片段被誤判為靜音
     - 完整修復語法結構，確保代碼穩定運行
+- 2025-04-11 嚴格靜音處理修正：
+  - 徹底修復「無語音片段仍被轉譯」問題：
+    - 更改轉譯條件判斷邏輯，嚴格要求只有檢測到語音的片段才進行轉譯
+    - 完全移除之前「檔案大小超過閾值即轉譯」的寬鬆條件
+    - 添加詳細的診斷日誌，清晰顯示轉譯決策依據
+    - 確保系統能正確識別並丟棄完全靜音的片段，避免浪費API呼叫
 
 ## to be corrected
 
@@ -191,6 +197,7 @@ audio input fine tuning
 - [x] during the recording, even I don't speak, the audio input is still recording, and the whisper api still returns the transcription, which resulting in absolutely misleading transcription content. Need to find a way to filter out the silence or noise.
 - [x] the confirm dialog for canceling transcription is too annoying, should skip the confirmation dialog and just cancel the transcription directly when it detected silence or noise.
 - [x] 重新檢視音量檢測與靜音過濾的邏輯，確保在錄音過程中能夠準確識別靜音片段並自動跳過，避免不必要的轉譯請求。但在累積要submit的片段時，仍然需要確保每個片段都是完整的WebM音訊，並且避免太頻繁的API請求。
+- [x] 即使在完全靜音的情況下錄音，應用程式仍然錯誤地將音訊片段發送到轉譯 API
 
 the export srt
 - [x] nothing happens when I click the export button, should be able to trigger a download of the srt file
